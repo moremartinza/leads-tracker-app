@@ -25,19 +25,18 @@ function render(leads) {
   let listItems = "";
   for (let i = 0; i < leads.length; i++) {
     listItems += `
-            <li>
-                <a target='_blank' href='${leads[i]}'>
-                    ${leads[i]}
-                </a>
-            </li>
-        `;
+      <li>
+        <a target='_blank' href='${leads[i]}' class="text-blue-700 dark:text-sky-300 underline break-words">
+          ${leads[i]}
+        </a>
+      </li>
+    `;
   }
   ulEl.innerHTML = listItems;
 }
 
 onValue(referenceInDB, function (snapshot) {
-  const snapshotDoesExist = snapshot.exists();
-  if (snapshotDoesExist) {
+  if (snapshot.exists()) {
     const snapshotValues = snapshot.val();
     const leads = Object.values(snapshotValues);
     render(leads);
@@ -50,6 +49,8 @@ deleteBtn.addEventListener("dblclick", function () {
 });
 
 inputBtn.addEventListener("click", function () {
-  push(referenceInDB, inputEl.value);
-  inputEl.value = "";
+  if (inputEl.value.trim()) {
+    push(referenceInDB, inputEl.value.trim());
+    inputEl.value = "";
+  }
 });
